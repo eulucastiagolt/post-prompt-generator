@@ -5,6 +5,7 @@ import AlertArea from "./components/alert-area";
 
 export default function Home() {
   const [showAlert, setShowAlert] = useState(true);
+  const [showAlertType, setShowAlertType] = useState("");
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const topcRef = useRef<HTMLTextAreaElement>(null);
@@ -18,7 +19,6 @@ export default function Home() {
   const numberSectionRef = useRef<HTMLSelectElement>(null);
   const numberParagraphRef = useRef<HTMLSelectElement>(null);
 
-  const n = useRef(true);
   const t = useRef("Copiado com sucesso");
   const m = useRef("O conteudo selecionado, foi copiado com sucesso");
 
@@ -36,6 +36,7 @@ export default function Home() {
       numberParagraphRef.current
     ) {
       if (topcRef.current.value === "") {
+        setShowAlert(true);
         return;
       }
       titleRef.current.value = `Write a title for an article about "${topcRef.current.value}" in ${languageRef.current.value}. Style: ${writingStyleRef.current.value}. Tone: ${writingToneRef.current.value}. Must be between 40 and 60 characters.`;
@@ -46,10 +47,15 @@ export default function Home() {
   };
 
   const handleAutoSelect = (e: React.FormEvent<HTMLTextAreaElement>) => {
-    e.currentTarget.focus();
-    e.currentTarget.select();
-    e.currentTarget.setSelectionRange(0, 99999);
-    navigator.clipboard.writeText(e.currentTarget.value);
+    if (e.currentTarget.value !== "") {
+      e.currentTarget.focus();
+      e.currentTarget.select();
+      e.currentTarget.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(e.currentTarget.value);
+      setShowAlert(true);
+      setShowAlertType("success");
+      setTimeout(handleCloseAlert, 2000);
+    }
   };
 
   const handleCloseAlert = (): void => {
@@ -58,7 +64,7 @@ export default function Home() {
 
   return (
     <>
-      <AlertArea show={showAlert} message={m.current} title={t.current} closeFunction={handleCloseAlert} />
+      <AlertArea show={showAlert} type={showAlertType} message={m.current} title={t.current} closeFunction={handleCloseAlert} />
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
           <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">

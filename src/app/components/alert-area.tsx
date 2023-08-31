@@ -1,18 +1,27 @@
-import { AlertSuccess } from "./alerts";
+import { AlertSuccess, AlertWarning } from "./alerts";
 
 interface AlertAreaProps {
-  show: boolean;
+  show?: boolean;
+  type?: string;
   message?: string;
   title?: string;
   closeFunction?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const AlertArea: React.FC<AlertAreaProps> = ({ show, message, title, closeFunction }) => {
-  return (
-    <div className={`absolute w-full z-[99999] bg-white/10 transition-all duration-300 ${show ? " top-0" : " -top-full"}`}>
-      <AlertSuccess message={message} title={title} closeFunction={closeFunction} />
-    </div>
-  );
+const AlertType = ({ type, message, title, closeFunction }: AlertAreaProps) => {
+  if (type === "success") {
+    return <AlertSuccess message={message} title={title} closeFunction={closeFunction} />;
+  } else if (type === "warning") {
+    return <AlertWarning message={message} title={title} closeFunction={closeFunction} />;
+  } else {
+    return <AlertSuccess message={message} title={title} closeFunction={closeFunction} />;
+  }
+};
+
+const AlertArea = ({ show, type, message, title, closeFunction }: AlertAreaProps) => {
+  <div className={`fixed w-full z-[99999] transition-all duration-300 left-0 ${show ? " top-0" : " -top-full"}`}>
+    <AlertType type={type} message={message} title={title} closeFunction={closeFunction} />
+  </div>;
 };
 
 export default AlertArea;
