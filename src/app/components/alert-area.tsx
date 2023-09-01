@@ -19,9 +19,11 @@ const AlertType = ({ type, message, title, closeFunction }: AlertAreaProps) => {
 };
 
 const AlertArea = ({ show, type, message, title, closeFunction }: AlertAreaProps) => {
-  <div className={`fixed w-full z-[99999] transition-all duration-300 left-0 ${show ? " top-0" : " -top-full"}`}>
-    <AlertType type={type} message={message} title={title} closeFunction={closeFunction} />
-  </div>;
+  return (
+    <div className={`fixed w-full z-[99999] transition-all duration-300 left-0 ${show ? " top-0" : " -top-full"}`}>
+      <AlertType type={type} message={message} title={title} closeFunction={closeFunction} />
+    </div>
+  );
 };
 
 export default AlertArea;

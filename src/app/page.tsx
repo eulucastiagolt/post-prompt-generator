@@ -1,12 +1,9 @@
 "use client";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AlertArea from "./components/alert-area";
 
 export default function Home() {
-  const [showAlert, setShowAlert] = useState(true);
-  const [showAlertType, setShowAlertType] = useState("");
-
   const buttonRef = useRef<HTMLButtonElement>(null);
   const topcRef = useRef<HTMLTextAreaElement>(null);
   const languageRef = useRef<HTMLSelectElement>(null);
@@ -19,8 +16,12 @@ export default function Home() {
   const numberSectionRef = useRef<HTMLSelectElement>(null);
   const numberParagraphRef = useRef<HTMLSelectElement>(null);
 
-  const t = useRef("Copiado com sucesso");
-  const m = useRef("O conteudo selecionado, foi copiado com sucesso");
+  const alertTitle = useRef("Copiado com sucesso");
+  const alertMessage = useRef("O conteudo selecionado, foi copiado com sucesso");
+  const alertType = useRef("success");
+  // const alertShow = useRef(true);
+
+  const [alertShow, setAlertShow] = useState(false);
 
   const handleGeneratePrompt = () => {
     if (
@@ -36,7 +37,7 @@ export default function Home() {
       numberParagraphRef.current
     ) {
       if (topcRef.current.value === "") {
-        setShowAlert(true);
+        handleShowArlet("warning", "Campo não preenchido", "Por favor, defina um topico");
         return;
       }
       titleRef.current.value = `Write a title for an article about "${topcRef.current.value}" in ${languageRef.current.value}. Style: ${writingStyleRef.current.value}. Tone: ${writingToneRef.current.value}. Must be between 40 and 60 characters.`;
@@ -52,19 +53,31 @@ export default function Home() {
       e.currentTarget.select();
       e.currentTarget.setSelectionRange(0, 99999);
       navigator.clipboard.writeText(e.currentTarget.value);
-      setShowAlert(true);
-      setShowAlertType("success");
-      setTimeout(handleCloseAlert, 2000);
+      handleShowArlet("success", "Copiado com sucesso", "O conteudo selecionado, foi copiado com sucesso");
     }
   };
 
+  const handleShowArlet = (type: string, title: string, message: string) => {
+    alertTitle.current = title;
+    alertMessage.current = message;
+    alertType.current = type;
+    setAlertShow(true);
+    setTimeout(handleCloseAlert, 3500);
+  };
+
   const handleCloseAlert = (): void => {
-    setShowAlert(false);
+    setAlertShow(false);
   };
 
   return (
     <>
-      <AlertArea show={showAlert} type={showAlertType} message={m.current} title={t.current} closeFunction={handleCloseAlert} />
+      <AlertArea
+        show={alertShow}
+        type={alertType.current}
+        title={alertTitle.current}
+        message={alertMessage.current}
+        closeFunction={handleCloseAlert}
+      />
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
           <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
@@ -73,9 +86,13 @@ export default function Home() {
           <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
             <a
               className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+              href="#Lucas."
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => {
+                e.preventDefault();
+                handleShowArlet("warning", "Em breve...", `Logo disponibilizarei o link para meu site. \n\r Aguarde...`);
+              }}
             >
               By <Image src="/lucas_logo_branca.svg" alt="Lucas Logo" className="" width={100} height={24} priority />
             </a>
@@ -98,15 +115,31 @@ export default function Home() {
               <div className="py-4 flex flex-col items-start">
                 <h2 className="text-xl pb-4">Idioma:</h2>
                 <select defaultValue="English" ref={languageRef} className="bg-white/20 border-white/20 border px-5 py-4 w-full rounded-lg">
-                  <option value="English">English</option>
-                  <option value="German">German</option>
-                  <option value="French">French</option>
-                  <option value="Spanish">Spanish</option>
-                  <option value="Italian">Italian</option>
-                  <option value="Chinese">Chinese</option>
-                  <option value="Japanese">Japanese</option>
-                  <option value="Portuguese">Portuguese</option>
-                  {/* <option value="Other">Other</option> */}
+                  <option className="bg-black/50" value="English">
+                    English
+                  </option>
+                  <option className="bg-black/50" value="German">
+                    German
+                  </option>
+                  <option className="bg-black/50" value="French">
+                    French
+                  </option>
+                  <option className="bg-black/50" value="Spanish">
+                    Spanish
+                  </option>
+                  <option className="bg-black/50" value="Italian">
+                    Italian
+                  </option>
+                  <option className="bg-black/50" value="Chinese">
+                    Chinese
+                  </option>
+                  <option className="bg-black/50" value="Japanese">
+                    Japanese
+                  </option>
+                  <option className="bg-black/50" value="Portuguese">
+                    Portuguese
+                  </option>
+                  {/* <option className="bg-black/50" value="Other">Other</option> */}
                 </select>
               </div>
               <div className="py-4 flex flex-col items-start">
@@ -116,17 +149,39 @@ export default function Home() {
                   ref={writingStyleRef}
                   className="bg-white/20 border-white/20 border px-5 py-4 w-full rounded-lg"
                 >
-                  <option value="Informative">Informative</option>
-                  <option value="Descriptive">Descriptive</option>
-                  <option value="Creative">Creative</option>
-                  <option value="Narrative">Narrative</option>
-                  <option value="Persuasive">Persuasive</option>
-                  <option value="Reflective">Reflective</option>
-                  <option value="Argumentative">Argumentative</option>
-                  <option value="Analytical">Analytical</option>
-                  <option value="Evaluative">Evaluative</option>
-                  <option value="Journalistic">Journalistic</option>
-                  <option value="Technical">Technical</option>
+                  <option className="bg-black/50" value="Informative">
+                    Informative
+                  </option>
+                  <option className="bg-black/50" value="Descriptive">
+                    Descriptive
+                  </option>
+                  <option className="bg-black/50" value="Creative">
+                    Creative
+                  </option>
+                  <option className="bg-black/50" value="Narrative">
+                    Narrative
+                  </option>
+                  <option className="bg-black/50" value="Persuasive">
+                    Persuasive
+                  </option>
+                  <option className="bg-black/50" value="Reflective">
+                    Reflective
+                  </option>
+                  <option className="bg-black/50" value="Argumentative">
+                    Argumentative
+                  </option>
+                  <option className="bg-black/50" value="Analytical">
+                    Analytical
+                  </option>
+                  <option className="bg-black/50" value="Evaluative">
+                    Evaluative
+                  </option>
+                  <option className="bg-black/50" value="Journalistic">
+                    Journalistic
+                  </option>
+                  <option className="bg-black/50" value="Technical">
+                    Technical
+                  </option>
                 </select>
               </div>
               <div className="py-4 flex flex-col items-start">
@@ -136,35 +191,83 @@ export default function Home() {
                   ref={writingToneRef}
                   className="bg-white/20 border-white/20 border px-5 py-4 w-full rounded-lg"
                 >
-                  <option value="Neutral">Neutral</option>
-                  <option value="Formal">Formal</option>
-                  <option value="Assertive">Assertive</option>
-                  <option value="Cheerful">Cheerful</option>
-                  <option value="Humorous">Humorous</option>
-                  <option value="Informal">Informal</option>
-                  <option value="Inspirational">Inspirational</option>
-                  <option value="Professional">Professional</option>
-                  <option value="Confluent">Confluent</option>
-                  <option value="Emotional">Emotional</option>
-                  <option value="Persuasive">Persuasive</option>
-                  <option value="Supportive">Supportive</option>
-                  <option value="Sarcastic">Sarcastic</option>
-                  <option value="Condescending">Condescending</option>
-                  <option value="Skeptical">Skeptical</option>
-                  <option value="Narrative">Narrative</option>
-                  <option value="Journalistic">Journalistic</option>
+                  <option className="bg-black/50" value="Neutral">
+                    Neutral
+                  </option>
+                  <option className="bg-black/50" value="Formal">
+                    Formal
+                  </option>
+                  <option className="bg-black/50" value="Assertive">
+                    Assertive
+                  </option>
+                  <option className="bg-black/50" value="Cheerful">
+                    Cheerful
+                  </option>
+                  <option className="bg-black/50" value="Humorous">
+                    Humorous
+                  </option>
+                  <option className="bg-black/50" value="Informal">
+                    Informal
+                  </option>
+                  <option className="bg-black/50" value="Inspirational">
+                    Inspirational
+                  </option>
+                  <option className="bg-black/50" value="Professional">
+                    Professional
+                  </option>
+                  <option className="bg-black/50" value="Confluent">
+                    Confluent
+                  </option>
+                  <option className="bg-black/50" value="Emotional">
+                    Emotional
+                  </option>
+                  <option className="bg-black/50" value="Persuasive">
+                    Persuasive
+                  </option>
+                  <option className="bg-black/50" value="Supportive">
+                    Supportive
+                  </option>
+                  <option className="bg-black/50" value="Sarcastic">
+                    Sarcastic
+                  </option>
+                  <option className="bg-black/50" value="Condescending">
+                    Condescending
+                  </option>
+                  <option className="bg-black/50" value="Skeptical">
+                    Skeptical
+                  </option>
+                  <option className="bg-black/50" value="Narrative">
+                    Narrative
+                  </option>
+                  <option className="bg-black/50" value="Journalistic">
+                    Journalistic
+                  </option>
                 </select>
               </div>
               <div className="py-4 flex flex-col items-start">
                 <h2 className="text-xl pb-4">Nº de seções:</h2>
                 <select defaultValue="2" ref={numberSectionRef} className="bg-white/20 border-white/20 border px-5 py-4 w-full rounded-lg">
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="6">6</option>
-                  <option value="8">8</option>
-                  <option value="10">10</option>
-                  <option value="12">12</option>
+                  <option className="bg-black/50" value="2">
+                    2
+                  </option>
+                  <option className="bg-black/50" value="3">
+                    3
+                  </option>
+                  <option className="bg-black/50" value="4">
+                    4
+                  </option>
+                  <option className="bg-black/50" value="6">
+                    6
+                  </option>
+                  <option className="bg-black/50" value="8">
+                    8
+                  </option>
+                  <option className="bg-black/50" value="10">
+                    10
+                  </option>
+                  <option className="bg-black/50" value="12">
+                    12
+                  </option>
                 </select>
               </div>
               <div className="py-4 flex flex-col items-start">
@@ -174,13 +277,27 @@ export default function Home() {
                   ref={numberParagraphRef}
                   className="bg-white/20 border-white/20 border px-5 py-4 w-full rounded-lg"
                 >
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="6">6</option>
-                  <option value="8">8</option>
-                  <option value="10">10</option>
+                  <option className="bg-black/50" value="1">
+                    1
+                  </option>
+                  <option className="bg-black/50" value="2">
+                    2
+                  </option>
+                  <option className="bg-black/50" value="3">
+                    3
+                  </option>
+                  <option className="bg-black/50" value="4">
+                    4
+                  </option>
+                  <option className="bg-black/50" value="6">
+                    6
+                  </option>
+                  <option className="bg-black/50" value="8">
+                    8
+                  </option>
+                  <option className="bg-black/50" value="10">
+                    10
+                  </option>
                 </select>
               </div>
               <div className="pt-4 flex flex-col items-start">
