@@ -147,12 +147,12 @@ export default function Home() {
         message={alertMessage.current}
         closeFunction={handleCloseAlert}
       />
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <main className="flex overflow-hidden min-h-screen flex-col items-center justify-between p-4 xl:p-24">
         <div className="z-10 items-center justify-between font-mono text-sm lg:flex w-full max-w-[1300px] mx-auto">
           <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
             Gerador de prompt para posts
           </p>
-          <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
+          <div className="fixed bottom-0 left-0 flex h-[80px] w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
             <a
               className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
               href="#Lucas."
@@ -170,23 +170,25 @@ export default function Home() {
 
         <div className="pt-20 relative flex place-items-start w-full max-w-[1300px] mx-auto before:absolute before:left-1/2 before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:left-1/3 after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
           <div className="z-[1] flex flex-wrap items-start gap-4 w-full">
-            <Card className="w-full flex items-center gap-[10px] text-lg uppercase whitespace-nowrap text-white/60">
-              <div className={`${step === 1 && "text-[#fe842b] font-bold"}`}>Configurção</div>
-              <div className="h-[1px] bg-white/20 w-full max-w-[300px]"></div>
-              <div className={`${step === 2 && "text-[#fe842b] font-bold"}`}>Titulo</div>
-              <div className="h-[1px] bg-white/20 w-full max-w-[300px]"></div>
-              <div className={`${step === 3 && "text-[#fe842b] font-bold"}`}>Seções</div>
-              <div className="h-[1px] bg-white/20 w-full max-w-[300px]"></div>
-              <div className={`${step === 4 && "text-[#fe842b] font-bold"}`}>Conteudo</div>
-              <div className="h-[1px] bg-white/20 w-full max-w-[300px]"></div>
-              <div className={`${step === 5 && "text-[#fe842b] font-bold"}`}>Resumo</div>
+            <Card className="w-full order-1">
+              <div className="w-full overflow-hidden md:overflow-visible flex items-center gap-[10px] text-lg uppercase whitespace-nowrap text-white/60">
+                <div className={`${step === 1 && "text-[#fe842b] font-bold"}`}>Configurção</div>
+                <div className="h-[1px] bg-white/20 w-full min-w-[50px] max-w-[300px]"></div>
+                <div className={`${step === 2 && "text-[#fe842b] font-bold"}`}>Titulo</div>
+                <div className="h-[1px] bg-white/20 w-full min-w-[50px] max-w-[300px]"></div>
+                <div className={`${step === 3 && "text-[#fe842b] font-bold"}`}>Seções</div>
+                <div className="h-[1px] bg-white/20 w-full min-w-[50px] max-w-[300px]"></div>
+                <div className={`${step === 4 && "text-[#fe842b] font-bold"}`}>Conteudo</div>
+                <div className="h-[1px] bg-white/20 w-full min-w-[50px] max-w-[300px]"></div>
+                <div className={`${step === 5 && "text-[#fe842b] font-bold"}`}>Resumo</div>
+              </div>
             </Card>
 
-            <div className={`w-full ${step === 1 ? "block" : "hidden"}`}>
+            <div className={`w-full order-3 md:order-2 ${step === 1 ? "block" : "hidden"}`}>
               <CardSection className="w-full">
                 <Card className="w-full">
                   <h2 className="text-2xl pb-4">Configurações do prompt:</h2>
-                  <div className="flex w-full justify-between gap-4">
+                  <div className="flex flex-col md:flex-row w-full justify-between gap-4">
                     <div className="py-4 flex flex-col items-start w-full">
                       <h2 className="text-xl pb-4">Idioma:</h2>
                       <select
@@ -328,9 +330,9 @@ export default function Home() {
               </CardSection>
             </div>
 
-            <div className={`w-full ${step === 2 ? "block" : "hidden"}`}>
-              <CardSection className="gap-4">
-                <Card className="w-full max-w-[calc((100%_/_3)_-_(1rem_*_(3_-_1)_/_3))]">
+            <div className={`w-full order-4 md:order-3 ${step === 2 ? "block" : "hidden"}`}>
+              <CardSection className="gap-4 flex-col md:flex-row">
+                <Card className="w-full md:max-w-[calc((100%_/_3)_-_(1rem_*_(3_-_1)_/_3))]">
                   <div className="pb-4 flex flex-col items-start">
                     <h2 className="text-xl">Topico</h2>
                     <p className="text-sm text-white/70 pb-4">Insira o tópico do artigo. Isso será usado para o prompt de título</p>
@@ -363,9 +365,9 @@ export default function Home() {
               </CardSection>
             </div>
 
-            <div className={`w-full ${step === 3 ? "block" : "hidden"}`}>
-              <CardSection className="gap-4">
-                <Card className="w-full max-w-[calc((100%_/_3)_-_(1rem_*_(3_-_1)_/_3))]">
+            <div className={`w-full order-5 md:order-4 ${step === 3 ? "block" : "hidden"}`}>
+              <CardSection className="gap-4 flex-col md:flex-row">
+                <Card className="w-full md:max-w-[calc((100%_/_3)_-_(1rem_*_(3_-_1)_/_3))]">
                   <div className="pb-4 flex flex-col items-start w-full">
                     <h2 className="text-xl">Titulo do artigo</h2>
                     <p className="text-sm text-white/70 pb-4">
@@ -430,9 +432,9 @@ export default function Home() {
               </CardSection>
             </div>
 
-            <div className={`w-full ${step === 4 ? "block" : "hidden"}`}>
-              <CardSection className="gap-4">
-                <Card className="w-full max-w-[calc((100%_/_3)_-_(1rem_*_(3_-_1)_/_3))]">
+            <div className={`w-full order-6 md:order-5 ${step === 4 ? "block" : "hidden"}`}>
+              <CardSection className="gap-4 flex-col md:flex-row">
+                <Card className="w-full md:max-w-[calc((100%_/_3)_-_(1rem_*_(3_-_1)_/_3))]">
                   <div className="pb-4 flex flex-col items-start w-full">
                     <h2 className="text-xl">Seções do artigo</h2>
                     <p className="text-sm text-white/70 pb-4">
@@ -498,8 +500,8 @@ export default function Home() {
               </CardSection>
             </div>
 
-            <div className={`w-full ${step === 5 ? "block" : "hidden"}`}>
-              <CardSection className="gap-4">
+            <div className={`w-full order-7 md:order-6 ${step === 5 ? "block" : "hidden"}`}>
+              <CardSection className="gap-4 flex-col md:flex-row">
                 <Card className="w-full">
                   <h2 className="text-xl pb-4">Prompt para Resumo</h2>
                   <textarea
@@ -514,9 +516,9 @@ export default function Home() {
               </CardSection>
             </div>
 
-            <CardSection>
-              <Card className="w-full flex justify-between items-center gap-4">
-                <div>
+            <CardSection className="order-7 md:order-7">
+              <Card className="w-full flex flex-wrap md:flex-nowrap justify-between items-center gap-4">
+                <div className="order-1">
                   {step !== 1 && (
                     <button
                       className="bg-[#fe842b] px-8 py-2 rounded-lg self-end hover:bg-[#D65D0E] uppercase transition-all duration-300 border border-[#fe842b]"
@@ -526,7 +528,7 @@ export default function Home() {
                     </button>
                   )}
                 </div>
-                <div className="text-center">
+                <div className="text-center order-3 md:order-2 mt-8 md:mt-0 border-t md:border-none pt-8 md:pt-0">
                   <span>
                     &copy; {new Date().getFullYear()} Esse aplicativo foi desenvolvido por{" "}
                     <a
@@ -546,7 +548,7 @@ export default function Home() {
                     Github
                   </a>
                 </div>
-                <div>
+                <div className="order-2 md:order-3">
                   {step !== 5 && (
                     <button
                       className="bg-[#fe842b] px-8 py-2 rounded-lg self-end hover:bg-[#D65D0E] uppercase transition-all duration-300 border border-[#fe842b]"
