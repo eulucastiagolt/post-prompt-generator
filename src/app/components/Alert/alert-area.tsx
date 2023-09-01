@@ -1,4 +1,6 @@
-import { AlertSuccess, AlertWarning } from "./alerts";
+import AlertError from "./AlertError";
+import AlertSuccess from "./alert-success";
+import AlertWarning from "./alert-warning";
 
 interface AlertAreaProps {
   show?: boolean;
@@ -13,6 +15,8 @@ const AlertType = ({ type, message, title, closeFunction }: AlertAreaProps) => {
     return <AlertSuccess message={message} title={title} closeFunction={closeFunction} />;
   } else if (type === "warning") {
     return <AlertWarning message={message} title={title} closeFunction={closeFunction} />;
+  } else if (type === "error") {
+    return <AlertError message={message} title={title} closeFunction={closeFunction} />;
   } else {
     return <AlertSuccess message={message} title={title} closeFunction={closeFunction} />;
   }
