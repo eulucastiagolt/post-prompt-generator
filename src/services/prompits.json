@@ -1,0 +1,7 @@
+[
+  {
+    "id":"copy_vendas",
+    "name": "Cop",
+    "prompt":"Atue como um Copywriting profissional e crie um texto para vendas baseado nessas informações a seguir (dor, promessa quebra de objeção e oferta escassa). Sendo que a dor do meu público é {{pain}}, a promessa do que o meu público vai conseguir com o meu produto é {{promise}}, a quebra de objeção do meu produto para fazer com que mais pessoas queiram o meu produto é (—-), e a oferta escassa é (——). Agora crie um texto para vendas estratégico."
+  }
+]
